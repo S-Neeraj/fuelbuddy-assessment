@@ -1,0 +1,30 @@
+Table user {
+  id          varchar(255) [pk, unique]
+  name        varchar(255)
+  email       varchar(255) [unique]
+  password    varchar(255)
+  createdAt   timestamp
+}
+
+Table task {
+  id          varchar(255) [pk, unique]
+  userId      varchar(255) [ref: > user.id]
+  title       varchar(255)
+  description text
+  dueDate     timestamp
+  createdAt   timestamp
+  updatedAt   timestamp
+}
+
+Table shared_task {
+  id                  varchar(255) [pk, unique]
+  taskId              varchar(255) [ref: > task.id]
+  sharedWithUserId    varchar(255) [ref: > user.id]
+  sharedByUserId      varchar(255) [ref: > user.id]
+  createdAt           timestamp
+}
+
+Ref: task.userId > user.id
+Ref: shared_task.taskId > task.id
+Ref: shared_task.sharedWithUserId > user.id
+Ref: shared_task.sharedByUserId > user.id
